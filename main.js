@@ -15,6 +15,14 @@ function snake() {
   this.y = y,
 }
 
+// A node-like class that allows us to chain together
+// bodyparts of the snake and add them as we need to
+function bodyPart() {
+  this.x = x,
+  this.y = y,
+  this.next,
+}
+
 // Define the location of little food dots and generate them ocassionaly
 function food(){
 
