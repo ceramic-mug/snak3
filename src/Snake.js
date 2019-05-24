@@ -46,11 +46,16 @@ export default class Snake {
     // console.log("Updating Snake");
     if (this.game.pressed.left) {
       this.head.vel.dir += dt * this.radVel;
+      // this.head.vel.mag -= dt * this.radVel/Math.PI;
+      // this.head.vel.mag -= dt * this.radVel;
     }
     else if (this.game.pressed.right) {
       this.head.vel.dir -= dt * this.radVel;
+      // this.head.vel.mag -= dt * this.radVel/Math.PI;
+      // this.head.vel.mag -= dt * this.radVel;
     }
     this.eat();
     this.segments.forEach((element) => element.update(dt));
+    // this.head.vel.mag = 0.1;
   }
 }

@@ -29,21 +29,25 @@ export default class Segment {
     if (this.parent) {
       let dist = Math.sqrt((this.pos.x-this.parent.pos.x)**2 + (this.pos.y-this.parent.pos.y)**2)
 
-      let diam = 2*5;
+      let diam = 2*this.radius;
+
+      let dx = this.parent.pos.x - this.pos.x;
+      let dy = this.parent.pos.y - this.pos.y;
 
       let dTheta = this.parent.vel.dir-this.vel.dir;
 
-      let responsiveness = this.radius*Math.PI/180;
+      let responsiveness = 1/diam;
 
       this.vel.dir += responsiveness*(dTheta);
 
       this.pos.x = this.parent.pos.x - diam*Math.cos(this.vel.dir);
 
       this.pos.y = this.parent.pos.y + diam*Math.sin(this.vel.dir);
+
+      return
   }
-  else{
     this.pos.x = this.pos.x + this.vel.mag * dt * Math.cos(this.vel.dir);
+
     this.pos.y = this.pos.y - this.vel.mag * dt * Math.sin(this.vel.dir);
-  }
   }
 }
