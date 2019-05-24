@@ -12,7 +12,7 @@ export default class Snake {
     // conventional angular direction measured in degrees counterclockwise from
     // positive x-axis
     this.vel = this.head.vel;
-    this.radVel = 0.125*Math.PI/180;
+    this.radVel = this.head.vel.mag*Math.E*Math.PI/180;
   }
 
   draw() {
@@ -22,7 +22,7 @@ export default class Snake {
   }
 
   add() {
-    this.segments.forEach((element) => element.radius +=0.2);
+    // this.segments.forEach((element) => element.radius +=0.2);
     let newX = this.segments[this.segments.length - 1].pos.x - 2*Math.cos(this.segments[this.segments.length - 1].vel.dir)*this.segments[this.segments.length - 1].radius;
     let newY = this.segments[this.segments.length - 1].pos.y + 2*Math.sin(this.segments[this.segments.length - 1].vel.dir)* this.segments[this.segments.length - 1].radius;
     let newDir = this.segments[this.segments.length - 1].vel.dir;
