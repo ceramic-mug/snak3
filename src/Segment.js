@@ -1,4 +1,5 @@
 export default class Segment {
+
   constructor(game, x, y, dir, parent) {
     // FIXME:
     this.game = game;
@@ -11,7 +12,7 @@ export default class Segment {
     // will act and change the velocity.
     // The snake inherits it's velocity from the segment designated as head
     // Direction is in terms of radians ccw from pos x axis
-    this.vel = {mag: 0.07, dir: dir};
+    this.vel = {mag: 0.1, dir: dir};
   }
 
   draw() {
@@ -26,18 +27,23 @@ export default class Segment {
   update(dt){
   // FIXME:
     if (this.parent) {
-      // console.log("hiiiiii");
-      let dTheta = this.parent.vel.dir - this.vel.dir;
-      if (dTheta != 0) {
-        console.log("we changing the direction bois");
-        let k = 0.005*dTheta;
-        this.vel.dir += (dTheta)*Math.E**(-k * dt);
-        // Projection of directional change onto the magnitude i.e. dot product
-        // this.vel.mag = this.vel.mag*Math.cos(dTheta);
-      }
-    }
+      let dist = Math.sqrt((this.pos.x-this.parent.pos.x)**2 + (this.pos.y-this.parent.pos.y)**2)
+
+      let diam = 2*5;
+
+      let dTheta = this.parent.vel.dir-this.vel.dir;
+
+      let responsiveness = this.radius*Math.PI/180;
+
+      this.vel.dir += responsiveness*(dTheta);
+
+      this.pos.x = this.parent.pos.x - diam*Math.cos(this.vel.dir);
+
+      this.pos.y = this.parent.pos.y + diam*Math.sin(this.vel.dir);
+  }
+  else{
     this.pos.x = this.pos.x + this.vel.mag * dt * Math.cos(this.vel.dir);
     this.pos.y = this.pos.y - this.vel.mag * dt * Math.sin(this.vel.dir);
-
+  }
   }
 }

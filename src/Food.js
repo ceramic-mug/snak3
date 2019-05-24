@@ -1,7 +1,7 @@
 export default class Food {
   constructor(game) {
     this.game = game;
-    this.radius = 3;
+    this.radius = 10;
     this.pos = {x: (Math.random() * this.game.gameWidth) + 1,
                 y: (Math.random() * this.game.gameHeight) + 1
               };
