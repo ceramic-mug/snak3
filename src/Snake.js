@@ -22,8 +22,9 @@ export default class Snake {
   }
 
   add() {
-    let newX = this.segments[this.segments.length - 1].pos.x - 2*Math.cos(this.segments[this.segments.length - 1].vel.dir)*this.head.radius;
-    let newY = this.segments[this.segments.length - 1].pos.y + 2*Math.sin(this.segments[this.segments.length - 1].vel.dir)* this.head.radius;
+    this.segments.forEach((element) => element.radius +=0.2);
+    let newX = this.segments[this.segments.length - 1].pos.x - 2*Math.cos(this.segments[this.segments.length - 1].vel.dir)*this.segments[this.segments.length - 1].radius;
+    let newY = this.segments[this.segments.length - 1].pos.y + 2*Math.sin(this.segments[this.segments.length - 1].vel.dir)* this.segments[this.segments.length - 1].radius;
     let newDir = this.segments[this.segments.length - 1].vel.dir;
     this.segments.push(new Segment(this.game, newX, newY, newDir, this.segments[this.segments.length - 1]));
     this.tail = this.segments[this.segments.length - 1];
