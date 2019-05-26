@@ -12,7 +12,7 @@ export default class Snake {
     // conventional angular direction measured in degrees counterclockwise from
     // positive x-axis
     this.vel = this.head.vel;
-    this.radVel = this.head.vel.mag*Math.E*Math.PI/180;
+    // this.radVel = this.head.vel.mag*Math.E*Math.PI/180;
   }
 
   draw() {
@@ -28,6 +28,7 @@ export default class Snake {
     let newDir = this.segments[this.segments.length - 1].vel.dir;
     this.segments.push(new Segment(this.game, newX, newY, newDir, this.segments[this.segments.length - 1]));
     this.tail = this.segments[this.segments.length - 1];
+    // console.log(this.tail.index + " segment added");
   }
 
   eat() {
@@ -44,12 +45,7 @@ export default class Snake {
   update(dt) {
     // FIXME:
     // console.log("Updating Snake");
-    if (this.game.pressed.left) {
-      this.head.vel.dir += dt * this.radVel;
-    }
-    else if (this.game.pressed.right) {
-      this.head.vel.dir -= dt * this.radVel;
-    }
+    // this.head.lastDir = this.head.vel.dir;
     this.eat();
     this.segments.forEach((element) => element.update(dt));
   }
