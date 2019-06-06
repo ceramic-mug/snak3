@@ -9,6 +9,7 @@ export default class Game {
     this.add(new Snake(this));
     this.add(new Food(this));
     this.pressed = {right:false, left:false};
+    this.score = 0;
     }
 
     add(gameObj) {
