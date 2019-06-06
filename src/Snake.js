@@ -2,51 +2,81 @@ import Segment from "/src/Segment.js";
 import Food from "/src/Food.js";
 export default class Snake {
   constructor(game) {
-    // FIXME:
     this.head = new Segment(game, game.gameWidth/2, game.gameHeight/2, 0, null);
     this.game = game;
     this.tail = this.head;
     this.segments = [];
     this.segments.push(this.head);
-    // Magnitude specifies absolute speed in pixels/unit time, direction is
-    // conventional angular direction measured in degrees counterclockwise from
-    // positive x-axis
-    this.vel = this.head.vel;
-    // this.radVel = this.head.vel.mag*Math.E*Math.PI/180;
+    this.growSteps = 9;
   }
 
   draw() {
-    // FIXME:
-    // console.log("Drawing Snake");
     this.segments.forEach((element) => element.draw());
   }
 
   add() {
-    // this.segments.forEach((element) => element.radius +=0.2);
-    let newX = this.segments[this.segments.length - 1].pos.x - 2*Math.cos(this.segments[this.segments.length - 1].vel.dir)*this.segments[this.segments.length - 1].radius;
-    let newY = this.segments[this.segments.length - 1].pos.y + 2*Math.sin(this.segments[this.segments.length - 1].vel.dir)* this.segments[this.segments.length - 1].radius;
-    let newDir = this.segments[this.segments.length - 1].vel.dir;
-    this.segments.push(new Segment(this.game, newX, newY, newDir, this.segments[this.segments.length - 1]));
+    let prevSegment = this.segments[this.segments.length - 1];
+    let dx = 2*Math.cos(prevSegment.vel.dir)*Segment.RADIUS();
+    let dy = 2*Math.sin(prevSegment.vel.dir)* Segment.RADIUS();
+
+    let newX = prevSegment.pos.x - dx;
+    let newY = prevSegment.pos.y + dy;
+    let newDir = prevSegment.vel.dir;
+
+    let newSegment = new Segment(this.game, newX, newY, newDir, prevSegment)
+    this.segments.push(newSegment);
     this.tail = this.segments[this.segments.length - 1];
-    // console.log(this.tail.index + " segment added");
   }
 
   eat() {
     // Euclidean distance between food and head
     let foodDistance = Math.sqrt(Math.pow(this.head.pos.x - this.game.gameObjects[1].pos.x, 2) + Math.pow(this.head.pos.y - this.game.gameObjects[1].pos.y, 2));
 
-    if (foodDistance <= this.head.radius + this.game.gameObjects[1].radius) {
+    // If collision with food has occurred:
+
+    if (foodDistance <= Segment.RADIUS() + Food.RADIUS()) {
       this.game.gameObjects.pop();
-      this.add();
+      this.growSteps += 15;
       this.game.gameObjects.push(new Food(this.game));
+      this.game.score++;
     }
   }
 
+  move(dt) {
+    // Implement Josh's buffer idea for the Snake
+    /*
+      1. create new head
+      2. remove last element (tail)
+      3. Set new last element as tail
+    */
+    let newX = this.head.pos.x + 2*dt*this.head.vel.mag*Math.cos(this.head.vel.dir);
+    let newY = this.head.pos.y - 2*dt*this.head.vel.mag*Math.sin(this.head.vel.dir);
+    let newHead = new Segment(this.game, newX, newY, null);
+    newHead.vel.dir = this.head.vel.dir;
+    this.segments = [newHead].concat(this.segments.slice(0, this.segments.length - 1 ));
+    this.head = this.segments[0];
+    this.tail = this.segments[this.segments.length - 1];
+  }
+
+  changeDir(dt) {
+    if (this.game.pressed.left) {
+      this.head.vel.dir += dt * Segment.RADVEL();
+    }
+    else if (this.game.pressed.right) {
+      this.head.vel.dir -= dt * Segment.RADVEL();
+    }
+    console.log(this.head.vel.dir);
+  }
   update(dt) {
-    // FIXME:
-    // console.log("Updating Snake");
-    // this.head.lastDir = this.head.vel.dir;
+    // Smoothly grow snake
+    if (this.growSteps > 0) {
+      this.growSteps--;
+      this.add();
+    }
+
+    this.changeDir(dt);
     this.eat();
+    this.move(dt);
     this.segments.forEach((element) => element.update(dt));
   }
 }
