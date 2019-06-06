@@ -78,5 +78,6 @@ export default class Snake {
     this.eat();
     this.move(dt);
     this.segments.forEach((element) => element.update(dt));
+    // this.head.vel.mag = 0.1;
   }
 }
