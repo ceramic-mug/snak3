@@ -8,6 +8,7 @@ export default class Snake {
     this.segments = [];
     this.segments.push(this.head);
     this.growSteps = 9;
+    this.log = "";
   }
 
   draw() {
@@ -49,13 +50,37 @@ export default class Snake {
       2. remove last element (tail)
       3. Set new last element as tail
     */
+
     let newX = this.head.pos.x + 2*dt*this.head.vel.mag*Math.cos(this.head.vel.dir);
+    if (newX > this.game.gameWidth) {
+      newX = newX - this.game.gameWidth;
+    }
+    else if (newX < 0) {
+      newX = this.game.gameWidth - newX;
+    }
     let newY = this.head.pos.y - 2*dt*this.head.vel.mag*Math.sin(this.head.vel.dir);
+
+    if (newY > this.game.gameHeight) {
+      newY = newY - this.game.gameHeight;
+    }
+    else if (newY < 0) {
+      newY = this.game.gameHeight - newY;
+    }
+
     let newHead = new Segment(this.game, newX, newY, null);
     newHead.vel.dir = this.head.vel.dir;
     this.segments = [newHead].concat(this.segments.slice(0, this.segments.length - 1 ));
     this.head = this.segments[0];
     this.tail = this.segments[this.segments.length - 1];
+  }
+
+  checkSelfCollide() {
+    for (let i = 4; i < this.segments.length; i++) {
+      if (Segment.euclidDistance(this.head, this.segments[i]) <= 2*Segment.RADIUS()) {
+        console.log("Collision between head and segment " + i);
+        // this.kill();
+      }
+    }
   }
 
   changeDir(dt) {
@@ -65,15 +90,28 @@ export default class Snake {
     else if (this.game.pressed.right) {
       this.head.vel.dir -= dt * Segment.RADVEL();
     }
-    console.log(this.head.vel.dir);
+    // console.log(this.head.vel.dir);
   }
+
+  kill() {
+    while (this.segments.length > 0) {
+      this.segments.pop();
+    }
+    this.game.pause();
+    this.game.endScreen();
+  }
+
+  log() {
+    this.log += ""
+  }
+
   update(dt) {
     // Smoothly grow snake
     if (this.growSteps > 0) {
       this.growSteps--;
       this.add();
     }
-
+    this.checkSelfCollide();
     this.changeDir(dt);
     this.eat();
     this.move(dt);
