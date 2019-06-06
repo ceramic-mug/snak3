@@ -14,7 +14,7 @@ export default class Segment {
     }
     // The snake inherits it's velocity from the segment designated as head
     // Direction is in terms of radians ccw from pos x axis
-    console.log(this.index);
+    // console.log(this.index);
     this.vel = {mag: 0.05, dir: dir};
   }
   static RADVEL() {
@@ -25,6 +25,9 @@ export default class Segment {
     return 3;
   }
 
+  static euclidDistance(segA, segB) {
+    return Math.sqrt((segA.pos.x - segB.pos.x)**2 + (segA.pos.y - segB.pos.y)**2);
+  }
   draw() {
     this.game.ctx.fillStyle = "#000";
     this.game.ctx.beginPath();
