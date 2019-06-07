@@ -49,6 +49,11 @@ export default class Snake {
       1. create new head
       2. remove last element (tail)
       3. Set new last element as tail
+
+      -- With the new buffer movement regime the wrapping is really
+      easy. Doing it our old way, where each segment gets its
+      directions so to speak from the segment before it, made it
+      really complicated
     */
 
     let newX = this.head.pos.x + 2*dt*this.head.vel.mag*Math.cos(this.head.vel.dir);
