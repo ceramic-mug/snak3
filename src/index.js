@@ -16,6 +16,13 @@ new InputHandler(game);
 
 let lastTime = 0;
 
+/*
+ Adding Music to be playing in the background during game
+*/
+let music = new Audio("../media/bensound-dreams.mp3");
+
+// music.play();
+
 function gameLoop(timestamp) {
   // FIXME:
   let dt = timestamp - lastTime;

@@ -9,6 +9,7 @@ export default class Snake {
     this.segments.push(this.head);
     this.growSteps = 9;
     this.log = "";
+    this.munch = new Audio("../media/munch.mp3");
   }
 
   draw() {
@@ -36,6 +37,7 @@ export default class Snake {
     // If collision with food has occurred:
 
     if (foodDistance <= Segment.RADIUS() + Food.RADIUS()) {
+      this.munch.play();
       this.game.gameObjects.pop();
       this.growSteps += 15;
       this.game.gameObjects.push(new Food(this.game));
@@ -110,6 +112,12 @@ export default class Snake {
     this.log += ""
   }
 
+  writeScore() {
+    this.game.ctx.font = "20px Times";
+    this.game.ctx.fillStyle = "#000";
+    this.game.ctx.fillText(this.game.score, 10, 20);
+  }
+
   update(dt) {
     // Smoothly grow snake
     if (this.growSteps > 0) {
@@ -121,6 +129,7 @@ export default class Snake {
     this.eat();
     this.move(dt);
     this.segments.forEach((element) => element.update(dt));
+    this.writeScore();
     // this.head.vel.mag = 0.1;
   }
 }
