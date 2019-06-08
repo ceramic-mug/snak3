@@ -1,18 +1,12 @@
 import Game from '/src/Game.js';
 import Snake from '/src/Snake.js';
-import InputHandler from '/src/input.js';
 let canvas = document.getElementById("sCanvas");
 const GAME_WIDTH = canvas.width;
 const GAME_HEIGHT = canvas.height;
 let context = canvas.getContext('2d');
-
-
-
 // Instantiate Game class
 
-let game = new Game(context, GAME_WIDTH, GAME_HEIGHT);
-
-new InputHandler(game);
+let game = new Game(document, context, GAME_WIDTH, GAME_HEIGHT);
 
 let lastTime = 0;
 
