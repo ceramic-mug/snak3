@@ -11,6 +11,7 @@ export default class Snake {
     this.segments.push(this.head);
     this.growSteps = 9;
     this.log = "";
+    this.munch = new Audio("../media/munch.mp3");
   }
 
   draw() {
@@ -37,6 +38,7 @@ export default class Snake {
     // If collision with food has occurred:
 
     if (foodDistance <= Segment.RADIUS() + Food.RADIUS()) {
+      this.munch.play();
       this.game.gameObjects.pop();
       this.growSteps += 15;
       this.game.gameObjects.push(new Food(this.game));
@@ -51,6 +53,11 @@ export default class Snake {
       1. create new head
       2. remove last element (tail)
       3. Set new last element as tail
+
+      -- With the new buffer movement regime the wrapping is really
+      easy. Doing it our old way, where each segment gets its
+      directions so to speak from the segment before it, made it
+      really complicated
     */
 
     let newX = this.head.pos.x + dt*this.head.vel.mag*Math.cos(this.head.vel.dir);
@@ -105,6 +112,12 @@ export default class Snake {
 
   log() {
     this.log += ""
+  }
+
+  writeScore() {
+    this.game.ctx.font = "20px Times";
+    this.game.ctx.fillStyle = "#000";
+    this.game.ctx.fillText(this.game.score, 10, 20);
   }
 
   update(dt) {
