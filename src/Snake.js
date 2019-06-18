@@ -1,8 +1,10 @@
 import Segment from "/src/Segment.js";
 import Food from "/src/Food.js";
+import Game from "/src/Game.js";
+
 export default class Snake {
   constructor(game) {
-    this.head = new Segment(game, game.gameWidth/2, game.gameHeight/2, 0, null);
+    this.head = new Segment(game, game.gameWidth/2, game.gameHeight/2, 2*Math.PI*Math.random(), null);
     this.game = game;
     this.tail = this.head;
     this.segments = [];
@@ -17,15 +19,14 @@ export default class Snake {
   }
 
   add() {
-    let prevSegment = this.segments[this.segments.length - 1];
-    let dx = 2*Math.cos(prevSegment.vel.dir)*Segment.RADIUS();
-    let dy = 2*Math.sin(prevSegment.vel.dir)* Segment.RADIUS();
+    let dx = 2*Math.cos(this.tail.vel.dir)*Segment.RADIUS();
+    let dy = 2*Math.sin(this.tail.vel.dir)*Segment.RADIUS();
 
-    let newX = prevSegment.pos.x - dx;
-    let newY = prevSegment.pos.y + dy;
-    let newDir = prevSegment.vel.dir;
+    let newX = this.tail.pos.x - dx;
+    let newY = this.tail.pos.y + dy;
+    let newDir = this.tail.vel.dir;
 
-    let newSegment = new Segment(this.game, newX, newY, newDir, prevSegment)
+    let newSegment = new Segment(this.game, newX, newY, newDir, this.tail)
     this.segments.push(newSegment);
     this.tail = this.segments[this.segments.length - 1];
   }
@@ -42,6 +43,7 @@ export default class Snake {
       this.growSteps += 15;
       this.game.gameObjects.push(new Food(this.game));
       this.game.score++;
+      this.game.sounds.eat.play();
     }
   }
 
@@ -58,14 +60,14 @@ export default class Snake {
       really complicated
     */
 
-    let newX = this.head.pos.x + 2*dt*this.head.vel.mag*Math.cos(this.head.vel.dir);
+    let newX = this.head.pos.x + dt*this.head.vel.mag*Math.cos(this.head.vel.dir);
     if (newX > this.game.gameWidth) {
       newX = newX - this.game.gameWidth;
     }
     else if (newX < 0) {
       newX = this.game.gameWidth - newX;
     }
-    let newY = this.head.pos.y - 2*dt*this.head.vel.mag*Math.sin(this.head.vel.dir);
+    let newY = this.head.pos.y - dt*this.head.vel.mag*Math.sin(this.head.vel.dir);
 
     if (newY > this.game.gameHeight) {
       newY = newY - this.game.gameHeight;
@@ -82,10 +84,10 @@ export default class Snake {
   }
 
   checkSelfCollide() {
-    for (let i = 4; i < this.segments.length; i++) {
+    for (let i = 9; i < this.segments.length; i++) {
       if (Segment.euclidDistance(this.head, this.segments[i]) <= 2*Segment.RADIUS()) {
         console.log("Collision between head and segment " + i);
-        // this.kill();
+        this.kill();
       }
     }
   }
@@ -101,11 +103,11 @@ export default class Snake {
   }
 
   kill() {
+    this.game.sounds.kill.play();
     while (this.segments.length > 0) {
       this.segments.pop();
     }
-    this.game.pause();
-    this.game.endScreen();
+    this.game.setGameState(Game.GAME_STATES().end);
   }
 
   log() {
@@ -129,7 +131,5 @@ export default class Snake {
     this.eat();
     this.move(dt);
     this.segments.forEach((element) => element.update(dt));
-    this.writeScore();
-    // this.head.vel.mag = 0.1;
   }
 }

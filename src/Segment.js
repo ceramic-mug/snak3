@@ -15,7 +15,7 @@ export default class Segment {
     // The snake inherits it's velocity from the segment designated as head
     // Direction is in terms of radians ccw from pos x axis
     // console.log(this.index);
-    this.vel = {mag: 0.05, dir: dir};
+    this.vel = {mag: 0.1, dir: dir};
   }
   static RADVEL() {
     return 0.5*Math.PI/180;
