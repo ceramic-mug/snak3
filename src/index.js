@@ -1,10 +1,20 @@
 import Game from '/src/Game.js';
 import Snake from '/src/Snake.js';
 let canvas = document.getElementById("sCanvas");
-const GAME_WIDTH = canvas.width;
-const GAME_HEIGHT = canvas.height;
+let GAME_WIDTH = canvas.width;
+let GAME_HEIGHT = canvas.height;
 let context = canvas.getContext('2d');
+let scale = 0.5; // The relative scale of the canvas, vertically and horizontally
 // Instantiate Game class
+
+function resizeCanvas() {
+  canvas.width = scale*window.innerWidth;
+  canvas.height = scale*window.innerHeight;
+  GAME_WIDTH = canvas.width;
+  GAME_HEIGHT = canvas.height;
+}
+
+resizeCanvas();
 
 let game = new Game(document, context, GAME_WIDTH, GAME_HEIGHT);
 
