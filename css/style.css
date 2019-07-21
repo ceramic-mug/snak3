@@ -7,6 +7,8 @@ canvas {
   transform: translate(-50%, -50%);
   background-color: #fff;
   border: 5px solid #090;
+  width: 50%;
+  height: 50%;
 }
 html, body {
   width:  100%;

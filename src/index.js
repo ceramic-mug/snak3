@@ -29,8 +29,16 @@ let music = new Audio("../media/bensound-dreams.mp3");
 
 // music.play();
 
+function resize() { // FIXME: I don't think this is doing anything helpful
+  GAME_WIDTH  = canvas.width;
+  GAME_HEIGHT = canvas.height;
+  game.gameWidth = GAME_WIDTH;
+  game.gameHeight = GAME_HEIGHT;
+}
+
+
 function gameLoop(timestamp) {
-  // FIXME:
+  resize(); // FIXME: I don't think is doing anything helpful
   let dt = timestamp - lastTime;
   lastTime = timestamp;
   game.ctx.clearRect(0, 0, GAME_WIDTH, GAME_HEIGHT);
