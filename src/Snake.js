@@ -2,6 +2,7 @@ import Segment from "/src/Segment.js";
 import Food from "/src/Food.js";
 import Game from "/src/Game.js";
 
+// FIXME: Need to fix drawing issues after canvas resize
 export default class Snake {
   constructor(game) {
     this.head = new Segment(game, game.gameWidth/2, game.gameHeight/2, 2*Math.PI*Math.random(), null);
