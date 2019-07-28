@@ -1,4 +1,5 @@
 import Game from '/src/Game.js';
+import Sound from '/src/Sound.js';
 import Snake from '/src/Snake.js';
 
 // Create the canvas
@@ -25,9 +26,8 @@ let lastTime = 0;
 
 // Adding Music to be playing in the background during game
 
-let music = new Audio("../media/bensound-dreams.mp3");
-
-// music.play();
+let music = new Sound(game, "../media/bensound-dreams.mp3");
+music.play();
 
 <<<<<<< HEAD
 function resize() { // FIXME: I don't think this is doing anything helpful

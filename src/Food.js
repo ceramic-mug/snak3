@@ -22,6 +22,7 @@ export default class Food {
       this.pos.y += (Food.RADIUS() - this.pos.y);
     }
   }
+  
   static RADIUS() {
     return 3;
   }
