@@ -5,7 +5,6 @@ import Game from "/src/Game.js";
 export default class InputHandler {
   constructor(game) {
     document.addEventListener('keydown', event => {
-      // console.log(event.keyCode);
       switch (event.keyCode) {
         // Movement controls
         case 37:
@@ -40,22 +39,30 @@ export default class InputHandler {
       }
 
     });
-      document.addEventListener('keyup', event => {
-        switch (event.keyCode) {
-          // Movement controls
-          case 37:
-            game.pressed.left = false;
-            break;
-          case 65:
-            game.pressed.left = false;
-            break;
-          case 39:
-            game.pressed.right = false;
-            break;
-          case 68:
-            game.pressed.right = false;
-            break;
-        }
+    document.addEventListener('keyup', event => {
+      switch (event.keyCode) {
+        // Movement controls
+        case 37:
+          game.pressed.left = false;
+          break;
+        case 65:
+          game.pressed.left = false;
+          break;
+        case 39:
+          game.pressed.right = false;
+          break;
+        case 68:
+          game.pressed.right = false;
+          break;
+      }
+    });
+      
+      document.addEventListener('focus', () => {
+        game.resume();
+      });
+
+      document.addEventListener('blur', () => {
+        game.pause();
       });
     }
   }
