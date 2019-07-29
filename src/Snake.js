@@ -117,7 +117,8 @@ export default class Snake {
 
   writeScore() {
     this.game.ctx.font = "20px Times";
-    this.game.ctx.fillStyle = "#000";
+    this.game.ctx.fillStyle = "#fff";
+    this.game.ctx.strokeStyle = "#fff";
     this.game.ctx.fillText(this.game.score, 10, 20);
   }
 
