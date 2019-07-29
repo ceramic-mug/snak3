@@ -16,4 +16,20 @@ export default class Sound {
   stop() {
     this.sound.pause();
   }
+
+  volume_up() {
+    
+  }
+
+  volume_down() {
+
+  }
+
+  mute() {
+
+  }
+
+  unmute() {
+    
+  }
 }

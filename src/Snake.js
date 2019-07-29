@@ -2,6 +2,7 @@ import Segment from "/src/Segment.js";
 import Food from "/src/Food.js";
 import Game from "/src/Game.js";
 
+// FIXME: Need to fix drawing issues after canvas resize
 export default class Snake {
   constructor(game) {
     this.head = new Segment(game, game.gameWidth/2, game.gameHeight/2, 2*Math.PI*Math.random(), null);
@@ -116,7 +117,8 @@ export default class Snake {
 
   writeScore() {
     this.game.ctx.font = "20px Times";
-    this.game.ctx.fillStyle = "#000";
+    this.game.ctx.fillStyle = "#fff";
+    this.game.ctx.strokeStyle = "#fff";
     this.game.ctx.fillText(this.game.score, 10, 20);
   }
 

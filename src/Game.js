@@ -92,6 +92,14 @@ export default class Game {
       this.state = Game.GAME_STATES().play;
     }
 
+    set width(width) {
+      this.gameWidth = width;
+    }
+
+    set height(height) {
+      this.gameHeight = height;
+    }
+
     static GAME_STATES() {
       return {start:0,
               play:1,
