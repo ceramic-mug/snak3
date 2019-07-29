@@ -29,6 +29,7 @@ export default class Food {
 
   draw() {
     this.game.ctx.fillStyle = "#f00";
+    this.game.ctx.strokeStyle = "rgba(0,0,0,0)";
     this.game.ctx.beginPath();
     this.game.ctx.arc(this.pos.x, this.pos.y, Food.RADIUS(), 0, 2 * Math.PI);
     this.game.ctx.stroke();

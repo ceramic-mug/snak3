@@ -29,7 +29,8 @@ export default class Segment {
     return Math.sqrt((segA.pos.x - segB.pos.x)**2 + (segA.pos.y - segB.pos.y)**2);
   }
   draw() {
-    this.game.ctx.fillStyle = "#000";
+    this.game.ctx.fillStyle = "#fff";
+    this.game.ctx.strokeStyle = "#fff";
     this.game.ctx.beginPath();
     this.game.ctx.arc(this.pos.x, this.pos.y, Segment.RADIUS(), 0, 2 * Math.PI);
     this.game.ctx.stroke();
